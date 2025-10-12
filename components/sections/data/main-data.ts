@@ -13,7 +13,7 @@ export const quinceMainData = {
   },
   welcomeSection: {
     message:
-      "Con mucha alegría y emoción, te invito a celebrar mis XV años. Será un día lleno de magia, amor y momentos inolvidables. ¡Espero contar con tu presencia para hacer de este día algo realmente especial!",
+      "Jeremías 29:11 Que nuestros Planes se cumplan, pero que por encima de ellos, se cumplan los planes de Dios, por que los planes de él Son más grandes y mejores",
     backgroundImage: "/images/dahian12.jpg",
   },
   //juan carlos olmedo prieto mamá sandy gaona santoyo
@@ -54,8 +54,8 @@ export const quinceMainData = {
     },
     ceremony: {
       time: "16:00 hrs.",
-      venue: "Valle De La Misericordia Casa De Oracion",
-      address: "Av. de Jesús 954, Valle de La Misericordia, 45655 San Pedro Tlaquepaque, Jal.",
+      venue: "Salon De Eventos Acacia",
+      address: "Defensores de Baja California 3812, Independencia, 22705 Playas de Rosarito, B.C.",
       type: "Misa de Acción de Gracias",
       ubiLink: "https://maps.app.goo.gl/VBTqaU5zi8X52rVY7",
       ceremonyImage: "/images/dahian14.jpg",
