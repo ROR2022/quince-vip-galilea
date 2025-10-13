@@ -48,7 +48,7 @@ function AudioPlayer() {
   }, []);
 
   // Si hay error crítico, no mostrar el reproductor
-  if (error && !weddingData.audio?.src) {
+  if (error && !audio?.src) {
     return null;
   }
 
