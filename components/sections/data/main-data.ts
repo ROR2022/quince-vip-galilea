@@ -54,10 +54,10 @@ export const quinceMainData = {
     },
     ceremony: {
       time: "16:00 hrs.",
-      venue: "Salon De Eventos Acacia",
-      address: "Defensores de Baja California 3812, Independencia, 22705 Playas de Rosarito, B.C.",
+      venue: "Iglesia Fuente de Esperanza",
+      address: "Blvd. Dignidad III 22345, Valle Verde, 22204 Tijuana, B.C.",
       type: "Misa de Acción de Gracias",
-      ubiLink: "https://maps.app.goo.gl/E5sdgJsdq4NRMJp4A",
+      ubiLink: "https://maps.app.goo.gl/SzeFVFoztM9cMZHR8",
       ceremonyImage: "/images/dahian14.jpg",
     },
     party: {
