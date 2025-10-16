@@ -6,7 +6,7 @@ import { quinceMainData } from "@/components/sections/data/main-data";
 
 export default function ParentsSection() {
   //const { parents } = weddingData;
-  const { parents, godparents } = quinceMainData.event;
+  const { parents, godparents, padrinosList } = quinceMainData.event;
   const sectionRef = useRef(null);
   
   // Estados para animaciones escalonadas
@@ -59,6 +59,8 @@ export default function ParentsSection() {
   
   const basicClass="font-main-text text-5xl text-indigo-500 mb-4";
   const completeClass="font-main-text text-5xl text-indigo-500 mb-4 scale-up-center";
+
+  const uniqueKey = () => Math.random().toString(36).substr(2, 9);
   
 
   return (
@@ -113,7 +115,9 @@ export default function ParentsSection() {
                       </h3>
                       <span className="text-3xl animate-heart-beat ml-2">👨‍👩‍👧</span>
                     </div>
-                    <div>
+                    <div
+                    style={{display:'none'}}
+                    >
                       <Image
                       src={parents.parentsImage}
                       alt="Foto de los padres"
@@ -153,7 +157,9 @@ export default function ParentsSection() {
                       </h3>
                       <span className="text-3xl animate-heart-beat ml-2">🤝</span>
                     </div>
-                    <div>
+                    <div
+                    style={{display:'none'}}
+                    >
                       <Image
                       src={godparents.godparentsImage}
                       alt="Foto de los padres"
@@ -167,18 +173,15 @@ export default function ParentsSection() {
                       />                      
                     </div>
                     <div className="space-y-3">
-                      <div className="flex items-center justify-center space-x-2">
-                        <span className="text-lg">🤵</span>
+                      
+                      {padrinosList.map((padrino) => (
+                        <div key={uniqueKey()} className="flex items-center justify-center space-x-2">
+                        
                         <p className="text-xl font-medium text-glow">
-                          {godparents.godfather}
+                          {padrino}
                         </p>
                       </div>
-                      <div className="flex items-center justify-center space-x-2">
-                        <span className="text-lg">👰</span>
-                        <p className="text-xl font-medium text-glow">
-                          {godparents.godmother}
-                        </p>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
