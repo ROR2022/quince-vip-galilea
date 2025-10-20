@@ -66,7 +66,7 @@ export default function DressCodeSection() {
       >
         <div className="max-w-4xl mx-auto text-center space-y-8">
           {/* Título - Animación desde arriba */}
-          <h2 className={`font-main-text text-5xl text-indigo-500 transition-all duration-700 ${
+          <h2 className={`font-main-text text-5xl text-fuchsia-500 transition-all duration-700 ${
             isVisible 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 -translate-y-8'
@@ -109,8 +109,17 @@ export default function DressCodeSection() {
             {dressCode.subtitle}
           </p>
 
+          {/* Comentario adicional - Animación desde la izquierda */}
+          <p className={`text-lg text-pink-400 italic transition-all duration-700 delay-800 ${
+            isVisible 
+              ? 'opacity-100 translate-x-0' 
+              : 'opacity-0 -translate-x-8'
+          }`}>
+            {dressCode.comment}
+          </p>
+
           {/* Restricción - Animación desde abajo */}
-          <p className={`text-xl text-indigo-500 my-4 font-bold transition-all duration-700 delay-1000 ${
+          <p className={`text-xl text-fuchsia-500 my-4 font-bold transition-all duration-700 delay-1000 ${
             isVisible 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-8'

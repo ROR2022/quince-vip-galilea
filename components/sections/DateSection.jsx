@@ -65,8 +65,8 @@ export default function DateSection() {
     return isVisible ? `animate-${animationType} ${delay}` : '';
   };
       
-  const basicClass="text-8xl font-bold text-indigo-500 mb-2";
-  const completeClass="text-8xl font-bold text-indigo-500 mb-2 animate-number-pulse";
+  const basicClass="text-8xl font-bold text-fuchsia-500 mb-2";
+  const completeClass="text-8xl font-bold text-fuchsia-500 mb-2";
     
 
   // Configurar animación de scroll con fallback de carga inmediata
@@ -128,8 +128,9 @@ export default function DateSection() {
             <h2 
               style={{
                 textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+                color: '#C026D3 !important'
               }}
-              className="font-main-text text-4xl font-bold holographic-text"
+              className="font-main-text text-4xl font-bold text-fuchsia-500"
             >
               FECHA ESPECIAL
             </h2>
@@ -138,10 +139,10 @@ export default function DateSection() {
           {/* Card principal cósmica/holográfica */}
           <div className={getCosmicAnimationClass(cardVisible, 'calendar-flip', 'delay-300')}>
             <div 
-              className="date-card rounded-3xl p-12 max-w-md mx-auto relative overflow-hidden"
+              className=" rounded-3xl p-12 max-w-md mx-auto relative overflow-hidden"
               style={{
                 minHeight: '300px',
-                backgroundColor: 'rgba(99, 102, 241, 0.2)', // Fallback background
+                backgroundColor: '#F9A8D470', // Fallback background
                 border: '2px solid rgba(99, 102, 241, 0.5)',
                 display: 'block'
               }}
@@ -162,7 +163,7 @@ export default function DateSection() {
                 <div className="text-2xl font-medium text-white mb-2 text-glow">
                   {date.month ? date.month.toUpperCase() : 'DICIEMBRE'}
                 </div>
-                <div className="text-3xl font-medium text-white holographic-text">
+                <div className="text-3xl font-medium text-fuchsia-700">
                   {date.year || '2025'}
                 </div>
               </div>

@@ -589,7 +589,7 @@ ${formData.mensaje ? `💌 *Mensaje especial:*\n${formData.mensaje}` : ""}
             </div>
 
             <h3
-              className={`text-4xl font-main-text font-bold mb-4 leading-tight text-purple-500 transition-all duration-1000 delay-1000 ${
+              className={`text-4xl font-main-text font-bold mb-4 leading-tight text-pink-500 transition-all duration-1000 delay-1000 ${
                 isVisible 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 -translate-y-8'

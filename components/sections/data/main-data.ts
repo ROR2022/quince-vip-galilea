@@ -28,7 +28,7 @@ export const quinceMainData = {
                 por cuidarme y guiarme en este camino.
                 Hace quince años mis padres agradecieron a Dios por mi vida. 
                 Hoy, yo agradezco a Dios por ellos, por su infinito amor y paciencia.`,
-      backgroundImage: "/images/fondoLila&Dorado1.jpg",
+      backgroundImage: "/images/fondoRosa1.jpeg",
       parentsImage: "/images/padresDahian.jpg",
     },
     
@@ -44,12 +44,16 @@ export const quinceMainData = {
       "Teresa de Jesús Dávila",
       "Jerusalem Olmedo",
       "Alejandra Gaona", 
+      "Carlos González",
+      "Juan de Dios", 
+      "Helen Pérez",
       "Sugey Gaona",
       "Yési Castro Gaona",
       "Angel Ortega Garcia",
       "Noé Chupin",
       "Elena Salas",
-      "Daisy Perez"
+      "Daisy Perez",
+      "Angélica Vanesa Santoyo"
     ],
     date: {
       full: "Sábado 15 de Noviembre 2025",
@@ -77,13 +81,13 @@ export const quinceMainData = {
       ceremonyImage: "/images/galilea02.jpg",
     },
     party: {
-      time: "20:00 hrs.",
+      time: "19:00 hrs.",
       venue: "Salon De Eventos Acacia",
       address: "Defensores de Baja California 3812, Independencia, 22705 Playas de Rosarito, B.C.",
       type: "Recepción",
       ubiLink: "https://maps.app.goo.gl/E5sdgJsdq4NRMJp4A",
     },
-    dressCode: "Formal",
+    dressCode: "Formal - Rosa solo la quinceañera",
     restrictions: "",
   },
   timeline: {
@@ -102,66 +106,46 @@ export const quinceMainData = {
     events: [
       {
         id: "event1",
-        time: "13:00 hrs.",
+        time: "16:00 hrs.",
         title: "Misa de Acción de Gracias",
         description: "Ceremonia en la Parroquia Santa Fe de Guadalupe.",
         icon: "⛪",
       },
       {
         id: "event2",
-        time: "14:00 hrs.",
-        title: "Recepción en Salón Texano",
+        time: "19:00 hrs.",
+        title: "Recepción",
         description: "Comida, baile y celebración en el Salón Texano.",
         icon: "🎉",
       },
       {
         id: "event3",
-        time: "15:00 hrs.",
+        time: "20:00 hrs.",
         title: "Brindis y Palabras",
         description: "Brindis especial y palabras de agradecimiento.",
         icon: "🥂",
       },
       {
         id: "event4",
-        time: "16:00 hrs.",
+        time: "21:00 hrs.",
         title: "Baile de Quinceañera",
         description: "Primer baile y apertura de la pista de baile.",
         icon: "💃",
       },
       {
         id: "event5",
-        time: "18:00 hrs.",
+        time: "22:00 hrs.",
         title: "Corte de Pastel",
         description: "Momento especial del corte de pastel.",
         icon: "🍰",
-      },
-      {
-        id: "event6",
-        time: "19:00 hrs.",
-        title: "Baile y Diversión",
-        description: "Música, baile y diversión para todos los invitados.",
-        icon: "🎶",
-      },
-      {
-        id: "event7",
-        time: "20:00 hrs.",
-        title: "Mariachi",
-        description: "Presentación especial de mariachi.",
-        icon: "🎺",
-      },
-      {
-        id: "event8",
-        time: "21:00 hrs.",
-        title: "Despedida y Agradecimientos",
-        description: "Palabras finales y despedida de los invitados.",
-        icon: "🙏",
       },
     ],
   },
   dressCode:{
     title: "Código de Vestimenta",
     message: "¡Vístete para impresionar!",
-    subtitle: "Código de vestimenta formal",
+    subtitle: "Código de vestimenta formal - Rosa solo la quinceañera",
+    comment: "Colores sugeridos para los invitados: guinda, beige, azul cielo, negro, café, azul marino",
     restriction: "Restricción: No niños",
     backgroundImage: "/images/dressCode1.png",
   },

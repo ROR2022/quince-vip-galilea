@@ -144,14 +144,14 @@ export default function TimelineSection() {
           
           {/* Título principal con animación básica */}
           <div className="text-center mb-16">
-            <h2 className={`flex flex-col gap-3 text-5xl md:text-6xl font-bold mb-6 text-white magical-text-glow transition-all duration-1000 ${
+            <h2 className={`flex flex-col gap-3 text-5xl md:text-6xl font-bold mb-6 text-fuchsia-500 transition-all duration-1000 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
               <span>✨</span>
               <span>Cronograma</span>
               <span>Mágico</span>
             </h2>
-            <div className={`w-32 h-1 mx-auto bg-gradient-to-r from-purple-600 to-pink-400 rounded-full transition-all duration-1000 delay-500 ${
+            <div className={`w-32 h-1 mx-auto bg-gradient-to-r from-rose-600 to-pink-400 rounded-full transition-all duration-1000 delay-500 ${
               isVisible ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
             }`} />
           </div>
@@ -162,9 +162,9 @@ export default function TimelineSection() {
             <div className={`relative transition-all duration-1000 delay-700 ${
               isVisible ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-75 rotate-12'
             }`}>
-              <div className="w-80 h-80 mx-auto relative rounded-full overflow-hidden border-4 border-purple-400 shadow-2xl">
+              <div className="w-80 h-80 mx-auto relative rounded-full overflow-hidden border-4 border-fuchsia-500 shadow-2xl">
                 {/* Anillo mágico giratorio */}
-                <div className="absolute -inset-2 bg-gradient-to-br from-purple-600 via-pink-500 to-violet-600 rounded-full opacity-75 animate-spin" style={{ animationDuration: '8s' }}></div>
+                <div className="absolute -inset-2 bg-gradient-to-br from-rose-600 via-pink-500 to-fuchsia-600 rounded-full opacity-75 animate-spin" style={{ animationDuration: '8s' }}></div>
                 <div className="relative w-full h-full rounded-full overflow-hidden">
                   <Image
                     src={timeline.timelineImage}
@@ -215,7 +215,7 @@ export default function TimelineSection() {
                 {events.map((item, index) => (
                   <div
                     key={item.id}
-                    className={`timeline-card p-6 rounded-2xl border border-purple-400/30 text-white transition-all duration-700 relative ${
+                    className={`bg-pink-400 bg-opacity-40 p-6 rounded-2xl border border-pink-400/30 text-white transition-all duration-700 relative ${
                       isVisible 
                         ? 'opacity-100 translate-x-0 translate-y-0' 
                         : 'opacity-0 translate-x-8 translate-y-4'
@@ -226,7 +226,7 @@ export default function TimelineSection() {
                   >
                     {/* Conector mágico al timeline */}
                     <div 
-                    className={` w-6 h-6 bg-gradient-to-br from-purple-600 to-pink-400 rounded-full border-4 border-white/30 transition-all duration-500 ${
+                    className={` w-6 h-6 bg-gradient-to-br from-rose-600 to-pink-400 rounded-full border-4 border-white/30 transition-all duration-500 ${
                       isVisible ? 'animate-crystal-pulse scale-100' : 'scale-0'
                     }`}
                     style={{ 
@@ -256,7 +256,7 @@ export default function TimelineSection() {
                         </h3>
                         <div className={`text-3xl font-bold ${
                           item.color === "primary"
-                            ? "text-purple-300"
+                            ? "text-rose-300"
                             : "text-pink-300"
                         }`}>
                           {item.time}

@@ -66,7 +66,7 @@ export default function GiftsSection() {
           }`}>
             <h2 
               style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}
-              className="font-main-text text-5xl text-indigo-500"
+              className="font-main-text text-5xl text-pink-500"
             >
               Regalo
             </h2>
