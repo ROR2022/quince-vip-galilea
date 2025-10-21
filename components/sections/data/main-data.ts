@@ -53,7 +53,8 @@ export const quinceMainData = {
       "Noé Chupin",
       "Elena Salas",
       "Daisy Perez",
-      "Angélica Vanesa Santoyo"
+      "Angélica Vanesa Santoyo",
+      "Yazmin Santoyo",
     ],
     date: {
       full: "Sábado 15 de Noviembre 2025",
@@ -307,7 +308,7 @@ export const quinceMainData = {
   },
   customInvitations:{
     adminPassword: "admin1234",
-    invitationUrl: "https://quince-vip-new-demo.vercel.app/",
+    invitationUrl: "https://quince-vip-galilea.vercel.app/",
     suggested_messages: [
   "¡Querida amiga! Te invito a celebrar conmigo el día más mágico de mi vida. ¡Espero verte brillar junto a mí!",
   "¡Familia querida! Este día especial no sería lo mismo sin ustedes. ¡Los espero con mucho amor!",
