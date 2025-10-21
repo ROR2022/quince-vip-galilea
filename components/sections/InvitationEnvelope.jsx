@@ -32,6 +32,9 @@ function EnvelopeContent({ onOpen }) {
     }
   }, [inviteData]);
 
+  useEffect(() => {
+  }, [customHeight]);
+
   const getDataGuest= async (id) => {
     // Aquí podrías hacer una llamada a una API o buscar en un objeto local
     try {
