@@ -1,0 +1,452 @@
+/* 💎 Estilos para Diamantes Animados - HeroSection */
+
+/* ===== FORMA DEL DIAMANTE ===== */
+.diamond-shape {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(45deg, #F8BBD9, #C0C0C0);
+  transform: rotate(45deg);
+  opacity: 0.7;
+  box-shadow: 0 0 10px rgba(248, 187, 217, 0.5);
+  position: relative;
+  /* Optimización GPU mejorada */
+  will-change: transform, background;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+/* ===== ANIMACIONES PRINCIPALES V2 - MOVIMIENTO CONTINUO ===== */
+
+/* 1. MARCO SUPERIOR - Movimiento horizontal por arriba */
+@keyframes diamond-frame-top {
+  0% { 
+    transform: translateX(-100px) translateY(5vh) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { 
+    transform: translateX(calc(100vw + 100px)) translateY(5vh) rotate(360deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* 2. MARCO INFERIOR - Movimiento horizontal por abajo */
+@keyframes diamond-frame-bottom {
+  0% { 
+    transform: translateX(calc(100vw + 100px)) translateY(95vh) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { 
+    transform: translateX(-100px) translateY(95vh) rotate(360deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* 3. MARCO IZQUIERDO - Movimiento vertical por la izquierda */
+@keyframes diamond-frame-left {
+  0% { 
+    transform: translateX(5vw) translateY(-100px) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { 
+    transform: translateX(5vw) translateY(calc(100vh + 100px)) rotate(360deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* 4. MARCO DERECHO - Movimiento vertical por la derecha */
+@keyframes diamond-frame-right {
+  0% { 
+    transform: translateX(95vw) translateY(calc(100vh + 100px)) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { 
+    transform: translateX(95vw) translateY(-100px) rotate(360deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* Cambio de color más dramático para iconos SVG */
+@keyframes diamond-color {
+  0% { 
+    color: #F8BBD9;
+    filter: drop-shadow(0 0 25px #F8BBD9) brightness(1.3);
+  }
+  25% { 
+    color: #E91E63;
+    filter: drop-shadow(0 0 30px #E91E63) brightness(1.5);
+  }
+  50% { 
+    color: #C0C0C0;
+    filter: drop-shadow(0 0 35px #C0C0C0) brightness(1.8);
+  }
+  75% { 
+    color: #9C27B0;
+    filter: drop-shadow(0 0 30px #9C27B0) brightness(1.5);
+  }
+  100% { 
+    color: #F8BBD9;
+    filter: drop-shadow(0 0 25px #F8BBD9) brightness(1.3);
+  }
+}
+
+/* ===== CLASES DE ANIMACIÓN V2 - MOVIMIENTO CONTINUO ===== */
+
+/* ===== VARIACIONES DE VELOCIDAD V2 ===== */
+
+/* MARCO SUPERIOR */
+.diamond-frame-top-fast {
+  animation: diamond-frame-top 4s linear infinite;
+}
+
+.diamond-frame-top-normal {
+  animation: diamond-frame-top 6s linear infinite;
+}
+
+.diamond-frame-top-slow {
+  animation: diamond-frame-top 8s linear infinite;
+}
+
+/* MARCO INFERIOR */
+.diamond-frame-bottom-fast {
+  animation: diamond-frame-bottom 4s linear infinite;
+}
+
+.diamond-frame-bottom-normal {
+  animation: diamond-frame-bottom 6s linear infinite;
+}
+
+.diamond-frame-bottom-slow {
+  animation: diamond-frame-bottom 8s linear infinite;
+}
+
+/* MARCO IZQUIERDO */
+.diamond-frame-left-fast {
+  animation: diamond-frame-left 5s linear infinite;
+}
+
+.diamond-frame-left-normal {
+  animation: diamond-frame-left 7s linear infinite;
+}
+
+.diamond-frame-left-slow {
+  animation: diamond-frame-left 9s linear infinite;
+}
+
+/* MARCO DERECHO */
+.diamond-frame-right-fast {
+  animation: diamond-frame-right 5s linear infinite;
+}
+
+.diamond-frame-right-normal {
+  animation: diamond-frame-right 7s linear infinite;
+}
+
+.diamond-frame-right-slow {
+  animation: diamond-frame-right 9s linear infinite;
+}
+
+/* Efectos de color mantienen las velocidades originales */
+.diamond-color-fast {
+  animation: diamond-color 3s ease-in-out infinite;
+}
+
+.diamond-color-normal {
+  animation: diamond-color 6s ease-in-out infinite;
+}
+
+.diamond-color-slow {
+  animation: diamond-color 8s ease-in-out infinite;
+}
+
+/* ===== TAMAÑOS RESPONSIVE ===== */
+
+.diamond-small {
+  width: 8px;
+  height: 8px;
+}
+
+.diamond-large {
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== CONTENEDOR DE DIAMANTES ===== */
+.diamonds-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== EFECTOS VISUALES DRAMÁTICOS ===== */
+
+/* Efecto glow pulsante mejorado */
+@keyframes diamond-glow-pulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 15px currentColor) brightness(1.2);
+    transform: scale(1);
+  }
+  25% {
+    filter: drop-shadow(0 0 25px currentColor) brightness(1.5);
+    transform: scale(1.02);
+  }
+  50% { 
+    filter: drop-shadow(0 0 35px currentColor) brightness(1.8);
+    transform: scale(1.05);
+  }
+  75% {
+    filter: drop-shadow(0 0 30px currentColor) brightness(1.6);
+    transform: scale(1.03);
+  }
+}
+
+/* Efecto sparkle con centelleo aleatorio */
+@keyframes diamond-sparkle {
+  0%, 100% { 
+    opacity: 0.9;
+    transform: scale(1) rotate(0deg);
+  }
+  20% { 
+    opacity: 1;
+    transform: scale(1.4) rotate(15deg);
+  }
+  40% { 
+    opacity: 0.7;
+    transform: scale(0.9) rotate(-10deg);
+  }
+  60% { 
+    opacity: 1;
+    transform: scale(1.2) rotate(8deg);
+  }
+  80% { 
+    opacity: 0.8;
+    transform: scale(1.1) rotate(-5deg);
+  }
+}
+
+/* Efecto brillo que rota con intensidad variable */
+@keyframes diamond-shine {
+  0% { 
+    filter: drop-shadow(0 0 20px currentColor) hue-rotate(0deg) saturate(1.2);
+  }
+  25% {
+    filter: drop-shadow(0 0 30px currentColor) hue-rotate(90deg) saturate(1.5);
+  }
+  50% {
+    filter: drop-shadow(0 0 40px currentColor) hue-rotate(180deg) saturate(1.8);
+  }
+  75% {
+    filter: drop-shadow(0 0 35px currentColor) hue-rotate(270deg) saturate(1.6);
+  }
+  100% { 
+    filter: drop-shadow(0 0 25px currentColor) hue-rotate(360deg) saturate(1.3);
+  }
+}
+
+/* Efecto de centelleo dramático para móviles */
+@keyframes diamond-twinkle-mobile {
+  0%, 100% { 
+    opacity: 0.8; 
+    transform: scale(1);
+  }
+  10% { 
+    opacity: 1; 
+    transform: scale(1.3) rotate(15deg);
+  }
+  30% { 
+    opacity: 0.6; 
+    transform: scale(0.8) rotate(-10deg);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.5) rotate(25deg);
+  }
+  70% { 
+    opacity: 0.7; 
+    transform: scale(1.1) rotate(-8deg);
+  }
+  90% { 
+    opacity: 1; 
+    transform: scale(1.2) rotate(12deg);
+  }
+}
+
+/* Efecto de arco iris suave */
+@keyframes diamond-rainbow {
+  0% { filter: hue-rotate(0deg) saturate(1.3); }
+  16.66% { filter: hue-rotate(60deg) saturate(1.5); }
+  33.33% { filter: hue-rotate(120deg) saturate(1.4); }
+  50% { filter: hue-rotate(180deg) saturate(1.6); }
+  66.66% { filter: hue-rotate(240deg) saturate(1.4); }
+  83.33% { filter: hue-rotate(300deg) saturate(1.5); }
+  100% { filter: hue-rotate(360deg) saturate(1.3); }
+}
+
+/* Clases para efectos adicionales */
+.diamond-glow-pulse {
+  animation: diamond-glow-pulse 3s ease-in-out infinite;
+}
+
+.diamond-sparkle {
+  animation: diamond-sparkle 2.5s ease-in-out infinite alternate;
+}
+
+.diamond-shine {
+  animation: diamond-shine 5s linear infinite;
+}
+
+.diamond-twinkle-mobile {
+  animation: diamond-twinkle-mobile 3s ease-in-out infinite;
+}
+
+.diamond-rainbow {
+  animation: diamond-rainbow 8s linear infinite;
+}
+
+/* Efectos combinados para impacto máximo */
+.diamond-ultra-sparkle {
+  animation: 
+    diamond-sparkle 2s ease-in-out infinite alternate,
+    diamond-glow-pulse 3s ease-in-out infinite,
+    diamond-shine 4s linear infinite;
+}
+
+.diamond-mobile-optimized {
+  animation: 
+    diamond-twinkle-mobile 3s ease-in-out infinite,
+    diamond-rainbow 6s linear infinite;
+}
+
+/* Efectos especiales para diamantes destacados */
+.diamond-hero {
+  animation: 
+    diamond-sparkle 1.5s ease-in-out infinite alternate,
+    diamond-glow-pulse 2s ease-in-out infinite,
+    diamond-rainbow 10s linear infinite;
+  transform-origin: center;
+}
+
+.diamond-sparkle {
+  animation: diamond-sparkle 2s ease-in-out infinite alternate;
+}
+
+.diamond-shine {
+  animation: diamond-shine 4s linear infinite;
+}
+
+/* ===== OPTIMIZACIONES DE PERFORMANCE ===== */
+
+.diamond-optimized {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+/* Optimización específica para iconos SVG */
+.diamond-icon {
+  will-change: transform, filter, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout style paint;
+  isolation: isolate;
+}
+
+/* Container optimizado para múltiples diamantes */
+.diamonds-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  /* Optimizaciones específicas del contenedor */
+  transform: translateZ(0);
+  will-change: contents;
+  contain: layout style;
+  isolation: isolate;
+}
+
+/* Performance hint para GPU */
+.diamond-gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ===== MEDIA QUERIES RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .diamond-shape {
+    width: 10px;
+    height: 10px;
+    opacity: 0.6;
+  }
+  
+  .diamond-small {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .diamond-large {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .diamond-shape {
+    width: 8px;
+    height: 8px;
+    opacity: 0.5;
+  }
+  
+  .diamond-small {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+/* ===== ACCESIBILIDAD ===== */
+@media (prefers-reduced-motion: reduce) {
+  .animate-diamond-spin,
+  .animate-diamond-float,
+  .animate-diamond-color {
+    animation: none;
+  }
+  
+  .diamond-shape {
+    opacity: 0.4;
+  }
+}
+
+/* ===== FALLBACKS PARA NAVEGADORES ANTIGUOS ===== */
+@supports not (animation: none) {
+  .diamond-shape {
+    opacity: 0.3;
+    background: #F8BBD9;
+  }
+}

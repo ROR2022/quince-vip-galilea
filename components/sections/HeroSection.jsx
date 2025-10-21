@@ -1,10 +1,11 @@
 // 🏠 HeroSection - Sección principal/portada
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Image from 'next/image'
 import { Heart } from "lucide-react";
 import { quinceMainData } from "@/components/sections/data/main-data";
 import BackgroundCarrousel from "../../components/sections/BackgroundCarrousel";
+import DiamondContainer from "@/components/ui/DiamondContainer";
 //import { getOverlayStyle } from '@/utils/overlay'
 //import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 //import { getAnimationConfig } from '@/data/animationConfig'
@@ -14,8 +15,13 @@ export default function HeroSection() {
   //const { heroSection } = styling
   const { hero } = quinceMainData;
   const { backgroundCarrouselImages } = hero;
-  const [scrollPosition, setScrollPosition] = useState(window.scrollY);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  
+  // Inicializar scroll position
+  useEffect(() => {
+    setScrollPosition(window.scrollY);
+  }, []);
 
   const basicClass = "font-script text-4xl text-white mb-4 italic";
   const completeClass =
@@ -55,14 +61,8 @@ export default function HeroSection() {
     >
       <BackgroundCarrousel images={backgroundCarrouselImages}/>
 
-      <Image
-        src="/images/marcoD3b.png"
-        alt="Overlay"
-        width={700}
-        height={700}
-        objectFit="cover"
-        className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
-      />
+      {/* Diamantes animados como marco */}
+      <DiamondContainer intensity="default" />
 
       {/* Contenido principal - Usar solo animación CSS, no scroll-based */}
       <div
