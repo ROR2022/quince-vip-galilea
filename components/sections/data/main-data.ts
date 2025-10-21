@@ -28,7 +28,7 @@ export const quinceMainData = {
                 por cuidarme y guiarme en este camino.
                 Hace quince años mis padres agradecieron a Dios por mi vida. 
                 Hoy, yo agradezco a Dios por ellos, por su infinito amor y paciencia.`,
-      backgroundImage: "/images/fondoRosa1.jpeg",
+      backgroundImage: "/images/diamantes2.jpeg",
       parentsImage: "/images/padresDahian.jpg",
     },
     

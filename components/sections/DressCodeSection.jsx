@@ -119,7 +119,9 @@ export default function DressCodeSection() {
           </p>
 
           {/* Restricción - Animación desde abajo */}
-          <p className={`text-xl text-fuchsia-500 my-4 font-bold transition-all duration-700 delay-1000 ${
+          <p 
+          style={{display:'none'}}
+          className={`text-xl text-fuchsia-500 my-4 font-bold transition-all duration-700 delay-1000 ${
             isVisible 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-8'

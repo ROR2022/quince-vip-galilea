@@ -1,7 +1,7 @@
 // 🏠 HeroSection - Sección principal/portada
 
 import React, { useEffect, useState } from "react";
-//import Image from 'next/image'
+import Image from 'next/image'
 import { Heart } from "lucide-react";
 import { quinceMainData } from "@/components/sections/data/main-data";
 import BackgroundCarrousel from "../../components/sections/BackgroundCarrousel";
@@ -54,6 +54,15 @@ export default function HeroSection() {
       className="min-h-screen flex flex-col justify-center items-center relative pt-20"
     >
       <BackgroundCarrousel images={backgroundCarrouselImages}/>
+
+      <Image
+        src="/images/marcoD3b.png"
+        alt="Overlay"
+        width={700}
+        height={700}
+        objectFit="cover"
+        className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
+      />
 
       {/* Contenido principal - Usar solo animación CSS, no scroll-based */}
       <div

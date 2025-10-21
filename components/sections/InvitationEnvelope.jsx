@@ -61,12 +61,13 @@ function EnvelopeContent({ onOpen }) {
 
   const handleOpen = () => {
     setIsOpening(true);
-    setTimeout(() => {
+    
+     setTimeout(() => {
       setIsOpened(true);
       setTimeout(() => {
         onOpen();
-      }, 800);
-    }, 1000);
+      }, 100);
+    }, 100);  
   };
 
   /**
