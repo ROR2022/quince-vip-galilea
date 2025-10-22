@@ -146,7 +146,7 @@ export const quinceMainData = {
     title: "Código de Vestimenta",
     message: "¡Vístete para impresionar!",
     subtitle: "Código de vestimenta formal - Rosa solo la quinceañera",
-    comment: "Colores sugeridos para los invitados: guinda, beige, azul cielo, negro, café, azul marino",
+    comment: "Colores sugeridos para los invitados: guinda, beige, azul cielo, negro, café, azul marino, verde esmeralda",
     restriction: "Restricción: No niños",
     backgroundImage: "/images/dressCode1.png",
   },
@@ -202,15 +202,6 @@ export const quinceMainData = {
         image: "/images/gifts/bank-transfer.png",
         link: "https://example.com/transferencia-bancaria",
       },
-      {
-        id: "mesaRegalos",
-        name: "Mesa de Regalos",
-        icon: "🎁",
-        description:
-          "Hemos creado una mesa de regalos con opciones que nos encantaría recibir.",
-        image: "/images/gifts/gift-box.png",
-        link: "https://example.com/mesa-de-regalos",
-      }
     ],
   },
   gallery: {
