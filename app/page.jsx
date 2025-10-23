@@ -67,7 +67,7 @@ export default function WeddingInvitation() {
       {/* <GallerySection /> */}
       <PremiumGallery />
       {/* <VideoElement /> */}
-      {/* <QRCode /> */}
+       <QRCode /> 
       {/* <CustomInvitations /> */}
       <Link 
       style={{display: 'none'}}

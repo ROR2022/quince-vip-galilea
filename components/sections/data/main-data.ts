@@ -2,7 +2,7 @@ export const quinceMainData = {
   hero: {
     name: "Galilea",
     subtitle: "¡Mis XV años!",
-    backgroundImage: "/images/dahian13.jpg",
+    backgroundImage: "/images/galilea01.jpg",
     quote:
       "La vida es un viaje mágico, y hoy celebro un capítulo especial lleno de sueños y esperanza.",
     backgroundCarrouselImages: [
@@ -250,9 +250,9 @@ export const quinceMainData = {
   },
   qrcodeSection:{
     title: "Escanea el Código QR",
-    celebrant: "Dahian Guadalupe",
+    celebrant: "Galilea",
     message: "Para acceder fácilmente a la invitación en tu dispositivo móvil.",
-    mainImage: "/images/qrcode-bg.jpg",
+    mainImage: "/images/galilea01.jpg",
   },
   music: {
     src: "/music/quinceanera-song.mp3",
