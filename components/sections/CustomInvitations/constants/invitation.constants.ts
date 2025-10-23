@@ -2,7 +2,7 @@
 // 📁 constants/invitation.constants.ts
 // ================================================================
 
-import { EventInfo, RelationOption } from '../types/invitation.types';
+import { EventInfo, RelationOption, CountryConfig, CountryOption } from '../types/invitation.types';
 import { quinceMainData } from '@/components/sections/data/main-data';
 
 
@@ -51,12 +51,50 @@ export const UI_MESSAGES = {
   ADMIN_AUTHENTICATED: "Admin"
 } as const;
 
+// ================================================================
+// CONFIGURACIÓN INTERNACIONAL DE PAÍSES
+// ================================================================
+
+export const COUNTRIES: Record<string, CountryConfig> = {
+  mexico: {
+    code: "+52",
+    flag: "🇲🇽",
+    name: "México",
+    digits: 10,
+    whatsappPrefix: "521",
+    placeholder: "555 123 4567",
+    formatPattern: /^\d{3} \d{3} \d{4}$/,
+    inputMask: "XXX XXX XXXX"
+  },
+  usa: {
+    code: "+1", 
+    flag: "🇺🇸",
+    name: "Estados Unidos",
+    digits: 10,
+    whatsappPrefix: "1",
+    placeholder: "(555) 123-4567", 
+    formatPattern: /^\(\d{3}\) \d{3}-\d{4}$/,
+    inputMask: "(XXX) XXX-XXXX"
+  }
+} as const;
+
+export const DEFAULT_COUNTRY = "mexico";
+
+export const COUNTRY_OPTIONS: CountryOption[] = [
+  { value: "mexico", label: `${COUNTRIES.mexico.flag} ${COUNTRIES.mexico.name}` },
+  { value: "usa", label: `${COUNTRIES.usa.flag} ${COUNTRIES.usa.name}` }
+] as const;
+
+// ================================================================
+// RETROCOMPATIBILIDAD - MANTIENE FUNCIONALIDAD EXISTENTE
+// ================================================================
+
 export const PHONE_CONFIG = {
-  COUNTRY_CODE: "+52",
-  FLAG: "🇲🇽",
+  COUNTRY_CODE: COUNTRIES.mexico.code,
+  FLAG: COUNTRIES.mexico.flag,
   MAX_LENGTH: 13,
-  DIGITS_REQUIRED: 10,
-  PLACEHOLDER: "555 123 4567"
+  DIGITS_REQUIRED: COUNTRIES.mexico.digits,
+  PLACEHOLDER: COUNTRIES.mexico.placeholder
 } as const;
 
 export const DOWNLOAD_CONFIG = {

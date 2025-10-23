@@ -8,9 +8,12 @@ import {
   SUGGESTED_MESSAGES, 
   RELATION_OPTIONS, 
   PHONE_CONFIG, 
-  CSS_CLASSES 
+  CSS_CLASSES,
+  COUNTRIES,
+  COUNTRY_OPTIONS,
+  DEFAULT_COUNTRY
 } from '../constants/invitation.constants';
-import { formatMexicanPhone } from '../utils/invitation.utils';
+import { formatMexicanPhone, formatPhoneByCountry, validatePhoneByCountry } from '../utils/invitation.utils';
 
 /**
  * Componente del formulario principal de invitaciones
@@ -19,17 +22,21 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
   formData,
   onUpdateFormData,
 }) => {
-  // Verificar si el teléfono es válido
-  const isPhoneValid = formData.whatsappNumber.length === 0 || 
-    formData.whatsappNumber.replace(/\D/g, "").length === PHONE_CONFIG.DIGITS_REQUIRED;
+  // Obtener configuración del país seleccionado
+  const selectedCountry = formData.selectedCountry || DEFAULT_COUNTRY;
+  const countryConfig = COUNTRIES[selectedCountry];
+  
+  // Verificar si el teléfono es válido según el país
+  const phoneValidation = validatePhoneByCountry(formData.whatsappNumber, selectedCountry);
+  const isPhoneValid = formData.whatsappNumber.length === 0 || phoneValidation.isValid;
 
-  // Manejar el cambio del número de teléfono
+  // Manejar el cambio del número de teléfono con formateo por país
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const currentValue = formData.whatsappNumber;
     
-    // Pasar el valor anterior para detectar si está borrando
-    const formattedValue = formatMexicanPhone(newValue, currentValue);
+    // Usar formateo por país seleccionado
+    const formattedValue = formatPhoneByCountry(newValue, selectedCountry, currentValue);
     onUpdateFormData("whatsappNumber", formattedValue);
   };
 
@@ -108,6 +115,32 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
           </select>
         </div>
 
+        {/* Selector de País */}
+        <div>
+          <label 
+            htmlFor="selectedCountry"
+            className="block text-sm font-medium text-purple-700 mb-2"
+          >
+            País / Country *
+          </label>
+          <select
+            id="selectedCountry"
+            value={formData.selectedCountry}
+            onChange={(e) => onUpdateFormData("selectedCountry", e.target.value)}
+            className={`w-full text-black px-4 py-3 border rounded-lg ${CSS_CLASSES.BORDER_FOCUS}`}
+            required
+          >
+            {COUNTRY_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div className="mt-1 text-xs text-gray-500">
+            💡 Selecciona el país para el formato correcto del teléfono
+          </div>
+        </div>
+
         {/* Número de invitados */}
         <div>
           <label 
@@ -132,17 +165,17 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
           </select>
         </div>
 
-        {/* WhatsApp México */}
+        {/* WhatsApp Internacional */}
         <div>
           <label 
             htmlFor="whatsappNumber"
             className="block text-sm font-medium text-purple-700 mb-2"
           >
-            WhatsApp México ({PHONE_CONFIG.DIGITS_REQUIRED} dígitos) *
+            WhatsApp {countryConfig.name} ({countryConfig.digits} dígitos) *
           </label>
           <div className="relative">
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm font-medium">
-              {PHONE_CONFIG.FLAG} {PHONE_CONFIG.COUNTRY_CODE}
+              {countryConfig.flag} {countryConfig.code}
             </div>
             <input
               id="whatsappNumber"
@@ -150,8 +183,8 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
               value={formData.whatsappNumber}
               onChange={handlePhoneChange}
               onKeyDown={handlePhoneKeyDown}
-              placeholder={PHONE_CONFIG.PLACEHOLDER}
-              maxLength={PHONE_CONFIG.MAX_LENGTH}
+              placeholder={countryConfig.placeholder}
+              maxLength={selectedCountry === 'usa' ? 14 : 13} // (XXX) XXX-XXXX vs XXX XXX XXXX
               className={`w-full text-black pl-16 pr-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent ${
                 isPhoneValid 
                   ? CSS_CLASSES.BORDER_FOCUS.replace('border-fuchsia-200', 'border-fuchsia-200')
@@ -167,14 +200,20 @@ export const InvitationForm: React.FC<InvitationFormProps> = ({
             <div className="mt-1 p-2 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-xs text-red-600 flex items-center gap-1">
                 <span>⚠️</span>
-                Debe tener exactamente {PHONE_CONFIG.DIGITS_REQUIRED} dígitos
+                {phoneValidation.message || `Debe tener exactamente ${countryConfig.digits} dígitos`}
               </p>
             </div>
           )}
           
           {/* Contador de dígitos */}
           <div className="mt-1 text-xs text-gray-500">
-            {formData.whatsappNumber.replace(/\D/g, "").length}/{PHONE_CONFIG.DIGITS_REQUIRED} dígitos
+            {formData.whatsappNumber.replace(/\D/g, "").length}/{countryConfig.digits} dígitos
+            {selectedCountry === 'usa' && (
+              <span className=" ml-2">• Formato: (XXX) XXX-XXXX</span>
+            )}
+            {selectedCountry === 'mexico' && (
+              <span className=" ml-2">• Formato: XXX XXX XXXX</span>
+            )}
           </div>
         </div>
       </div>

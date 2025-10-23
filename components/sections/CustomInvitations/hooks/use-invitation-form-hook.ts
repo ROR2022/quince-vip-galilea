@@ -10,7 +10,7 @@ import {
   UIState, 
   UseInvitationFormReturn 
 } from '../types/invitation.types';
-import { ADMIN_PASSWORD } from '../constants/invitation.constants';
+import { ADMIN_PASSWORD, DEFAULT_COUNTRY } from '../constants/invitation.constants';
 
 // Estados iniciales
 const initialFormData: FormData = {
@@ -19,6 +19,7 @@ const initialFormData: FormData = {
   personalMessage: "",
   numberOfGuests: "",
   whatsappNumber: "",
+  selectedCountry: DEFAULT_COUNTRY, // ⭐ NUEVO: País por defecto
 };
 
 const initialAuthState: AuthState = {
@@ -51,7 +52,17 @@ export const useInvitationForm = (): UseInvitationFormReturn => {
    * @param value - Nuevo valor
    */
   const updateFormData = useCallback((field: FormField, value: string): void => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => {
+      // Si cambia el país, limpiar el número de teléfono para evitar conflictos de formato
+      if (field === 'selectedCountry' && value !== prev.selectedCountry) {
+        return { 
+          ...prev, 
+          [field]: value,
+          whatsappNumber: "" // Limpiar teléfono al cambiar país
+        };
+      }
+      return { ...prev, [field]: value };
+    });
   }, []);
 
   /**
@@ -151,13 +162,17 @@ export const useInvitationForm = (): UseInvitationFormReturn => {
   }, [formData]);
 
   /**
-   * Verifica si el teléfono es válido
-   * @returns true si el teléfono tiene 10 dígitos
+   * Verifica si el teléfono es válido según el país seleccionado
+   * @returns true si el teléfono tiene el formato correcto para el país
    */
   const isPhoneValid = useCallback((): boolean => {
-    const cleanNumber = formData.whatsappNumber.replace(/\D/g, "");
-    return cleanNumber.length === 10;
-  }, [formData.whatsappNumber]);
+    if (!formData.whatsappNumber.trim()) return false;
+    
+    // Importar validatePhoneByCountry aquí para evitar dependencias circulares
+    const { validatePhoneByCountry } = require('../utils/invitation.utils');
+    const result = validatePhoneByCountry(formData.whatsappNumber, formData.selectedCountry);
+    return result.isValid;
+  }, [formData.whatsappNumber, formData.selectedCountry]);
 
   /**
    * Obtiene el número de caracteres restantes para un campo

@@ -19,13 +19,19 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   onDownload,
 }) => {
   // Verificar si todos los campos requeridos están completos
-  const isFormComplete = !!(
-    formData.guestName &&
-    formData.personalMessage &&
-    formData.numberOfGuests &&
-    formData.whatsappNumber &&
-    formData.whatsappNumber.replace(/\D/g, "").length === 10
-  );
+  const isFormComplete = (() => {
+    if (!formData.guestName || !formData.personalMessage || !formData.numberOfGuests || !formData.whatsappNumber) {
+      return false;
+    }
+    
+    // Usar validación por país
+    const { validatePhoneByCountry } = require('../utils/invitation.utils');
+    const { DEFAULT_COUNTRY } = require('../constants/invitation.constants');
+    const selectedCountry = formData.selectedCountry || DEFAULT_COUNTRY;
+    const phoneValidation = validatePhoneByCountry(formData.whatsappNumber, selectedCountry);
+    
+    return phoneValidation.isValid;
+  })();
   const [isSending, setIsSending] = useState(false);
   const [errorModal, setErrorModal] = useState<{
     isOpen: boolean;
@@ -48,13 +54,20 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
     console.log('📱 [WhatsApp-Only] Enviando solo WhatsApp, saltando BD...');
     
     try {
+      // Importar funciones necesarias
+      const { generateWhatsAppMessage, generateWhatsAppUrl } = require('../utils/invitation.utils');
+      const { DEFAULT_COUNTRY } = require('../constants/invitation.constants');
+      
       // Generar mensaje directamente (sin guest ID)
       const message = generateWhatsAppMessage(formData, null);
-      const cleanNumber = formData.whatsappNumber.replace(/\D/g, "");
-      const mexicanNumber = `521${cleanNumber}`;
-      const whatsappURL = `https://wa.me/${mexicanNumber}?text=${encodeURIComponent(message)}`;
+      const selectedCountry = formData.selectedCountry || DEFAULT_COUNTRY;
+      const whatsappURL = generateWhatsAppUrl(formData.whatsappNumber, selectedCountry, message);
       
-      console.log('🚀 [WhatsApp-Only] Abriendo WhatsApp directamente...');
+      console.log('🚀 [WhatsApp-Only] Abriendo WhatsApp directamente...', {
+        country: selectedCountry,
+        phone: formData.whatsappNumber
+      });
+      
       const newWindow = window.open(whatsappURL, "_blank");
       
       if (!newWindow || newWindow.closed) {

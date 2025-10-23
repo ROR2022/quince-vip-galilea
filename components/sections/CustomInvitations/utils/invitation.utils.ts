@@ -2,44 +2,107 @@
 // 📁 utils/invitation.utils.ts
 // ================================================================
 
-import { FormData, ValidationResult } from '../types/invitation.types';
-import { EVENT_INFO, VALIDATION_MESSAGES, PHONE_CONFIG } from '../constants/invitation.constants';
+import { FormData, ValidationResult, PhoneValidationResult, CountryConfig } from '../types/invitation.types';
+import { EVENT_INFO, VALIDATION_MESSAGES, PHONE_CONFIG, COUNTRIES, DEFAULT_COUNTRY } from '../constants/invitation.constants';
 import "../../../../utils/logInterceptor";
 
+// ================================================================
+// FUNCIONES DE FORMATEO INTERNACIONAL
+// ================================================================
+
 /**
- * Formatea un número de teléfono mexicano con espacios
+ * Formatea un número de teléfono según el país seleccionado
+ * @param value - Número de teléfono sin formato
+ * @param country - País seleccionado ("mexico" | "usa")
+ * @param previousValue - Valor anterior para detectar si está borrando
+ * @returns Número formateado según el país
+ */
+export const formatPhoneByCountry = (
+  value: string, 
+  country: string, 
+  previousValue?: string
+): string => {
+  const countryConfig = COUNTRIES[country] || COUNTRIES[DEFAULT_COUNTRY];
+  
+  // Remover todo lo que no sean números
+  const numbers = value.replace(/\D/g, "");
+  
+  // Si el valor actual es más corto que el anterior, el usuario está borrando
+  const isDeleting = !!(previousValue && value.length < previousValue.length);
+  
+  // Limitar a la cantidad de dígitos del país
+  const limited = numbers.slice(0, countryConfig.digits);
+  
+  // Aplicar formato específico por país
+  if (country === "usa") {
+    return formatUSAPhone(limited, isDeleting);
+  } else {
+    return formatMexicanPhoneInternal(limited, isDeleting);
+  }
+};
+
+/**
+ * Formatea un número de teléfono de Estados Unidos
+ * @param numbers - Solo números sin formato
+ * @param isDeleting - Si el usuario está borrando
+ * @returns Número formateado (XXX) XXX-XXXX
+ */
+const formatUSAPhone = (numbers: string, isDeleting?: boolean): string => {
+  if (isDeleting) {
+    if (numbers.length >= 6) {
+      return `(${numbers.slice(0, 3)}) ${numbers.slice(3, 6)}-${numbers.slice(6)}`;
+    } else if (numbers.length >= 3) {
+      return `(${numbers.slice(0, 3)}) ${numbers.slice(3)}`;
+    } else if (numbers.length > 0) {
+      return `(${numbers}`;
+    }
+    return numbers;
+  }
+  
+  // Formatear normalmente cuando está escribiendo
+  if (numbers.length >= 6) {
+    return `(${numbers.slice(0, 3)}) ${numbers.slice(3, 6)}-${numbers.slice(6)}`;
+  } else if (numbers.length >= 3) {
+    return `(${numbers.slice(0, 3)}) ${numbers.slice(3)}`;
+  } else if (numbers.length > 0) {
+    return `(${numbers}`;
+  }
+  return numbers;
+};
+
+/**
+ * Formatea un número de teléfono mexicano con espacios (función interna)
+ * @param numbers - Solo números sin formato
+ * @param isDeleting - Si el usuario está borrando
+ * @returns Número formateado XXX XXX XXXX
+ */
+const formatMexicanPhoneInternal = (numbers: string, isDeleting?: boolean): string => {
+  if (isDeleting) {
+    if (numbers.length >= 6) {
+      return `${numbers.slice(0, 3)} ${numbers.slice(3, 6)} ${numbers.slice(6)}`;
+    } else if (numbers.length >= 3) {
+      return `${numbers.slice(0, 3)} ${numbers.slice(3)}`;
+    }
+    return numbers;
+  }
+  
+  // Formatear normalmente cuando está escribiendo
+  if (numbers.length >= 6) {
+    return `${numbers.slice(0, 3)} ${numbers.slice(3, 6)} ${numbers.slice(6)}`;
+  } else if (numbers.length >= 3) {
+    return `${numbers.slice(0, 3)} ${numbers.slice(3)}`;
+  }
+  return numbers;
+};
+
+/**
+ * Formatea un número de teléfono mexicano con espacios (RETROCOMPATIBILIDAD)
  * @param value - Número de teléfono sin formato
  * @param previousValue - Valor anterior para detectar si está borrando
  * @returns Número formateado (XXX XXX XXXX)
  */
 export const formatMexicanPhone = (value: string, previousValue?: string): string => {
-  // Remover todo lo que no sean números
-  const numbers = value.replace(/\D/g, "");
-  
-  // Si el valor actual es más corto que el anterior, el usuario está borrando
-  const isDeleting = previousValue && value.length < previousValue.length;
-  
-  // Limitar a 10 dígitos máximo
-  const limited = numbers.slice(0, PHONE_CONFIG.DIGITS_REQUIRED);
-  
-  // Si está borrando y el cursor está en un espacio, permitir que se borre
-  if (isDeleting) {
-    // Simplemente formatear los números que quedan
-    if (limited.length >= 6) {
-      return `${limited.slice(0, 3)} ${limited.slice(3, 6)} ${limited.slice(6)}`;
-    } else if (limited.length >= 3) {
-      return `${limited.slice(0, 3)} ${limited.slice(3)}`;
-    }
-    return limited;
-  }
-  
-  // Formatear normalmente cuando está escribiendo
-  if (limited.length >= 6) {
-    return `${limited.slice(0, 3)} ${limited.slice(3, 6)} ${limited.slice(6)}`;
-  } else if (limited.length >= 3) {
-    return `${limited.slice(0, 3)} ${limited.slice(3)}`;
-  }
-  return limited;
+  return formatPhoneByCountry(value, "mexico", previousValue);
 };
 
 /**
@@ -156,17 +219,20 @@ export const validateForm = (formData: FormData): ValidationResult & { errorCode
     };
   }
   
-  // Validar formato de teléfono (exactamente 10 dígitos)
-  const cleanNumber = formData.whatsappNumber.replace(/\D/g, "");
-  if (cleanNumber.length !== PHONE_CONFIG.DIGITS_REQUIRED) {
-    console.error('❌ [VALIDATION] Teléfono inválido', { 
+  // Validar formato de teléfono según país seleccionado
+  const selectedCountry = formData.selectedCountry || DEFAULT_COUNTRY;
+  const phoneValidation = validatePhoneByCountry(formData.whatsappNumber, selectedCountry);
+  
+  if (!phoneValidation.isValid) {
+    console.error('❌ [VALIDATION] Teléfono inválido por país', { 
       original: formData.whatsappNumber,
-      clean: cleanNumber,
-      length: cleanNumber.length 
+      clean: phoneValidation.cleanNumber,
+      country: selectedCountry,
+      message: phoneValidation.message
     });
     return { 
       isValid: false, 
-      message: `El número debe tener exactamente ${PHONE_CONFIG.DIGITS_REQUIRED} dígitos`,
+      message: phoneValidation.message || 'Formato de teléfono inválido',
       errorCode: 'INVALID_PHONE_FORMAT'
     };
   }
@@ -214,30 +280,110 @@ export const validateForm = (formData: FormData): ValidationResult & { errorCode
   return { isValid: true };
 };
 
+// ================================================================
+// FUNCIONES DE VALIDACIÓN INTERNACIONAL
+// ================================================================
+
 /**
- * Valida específicamente el número de teléfono
+ * Valida un número de teléfono según el país seleccionado
+ * @param phoneNumber - Número a validar
+ * @param country - País seleccionado ("mexico" | "usa")
+ * @returns Resultado de la validación con información adicional
+ */
+export const validatePhoneByCountry = (
+  phoneNumber: string,
+  country: string
+): PhoneValidationResult => {
+  const countryConfig = COUNTRIES[country] || COUNTRIES[DEFAULT_COUNTRY];
+  const cleanNumber = phoneNumber.replace(/\D/g, "");
+  
+  if (!phoneNumber.trim()) {
+    return { 
+      isValid: false, 
+      message: "Número de teléfono es requerido",
+      country,
+      cleanNumber: ""
+    };
+  }
+  
+  if (cleanNumber.length !== countryConfig.digits) {
+    return { 
+      isValid: false, 
+      message: `El número debe tener exactamente ${countryConfig.digits} dígitos`,
+      country,
+      cleanNumber
+    };
+  }
+  
+  // Validar formato específico del país
+  const formattedNumber = formatPhoneByCountry(cleanNumber, country);
+  const isValidFormat = countryConfig.formatPattern.test(formattedNumber);
+  
+  if (!isValidFormat) {
+    return {
+      isValid: false,
+      message: `Formato inválido para ${countryConfig.name}`,
+      country,
+      cleanNumber,
+      formattedNumber
+    };
+  }
+  
+  return { 
+    isValid: true,
+    country,
+    cleanNumber,
+    formattedNumber
+  };
+};
+
+/**
+ * Valida específicamente el número de teléfono (RETROCOMPATIBILIDAD)
  * @param phoneNumber - Número a validar
  * @returns Resultado de la validación
  */
 export const validatePhoneNumber = (phoneNumber: string): ValidationResult => {
+  const result = validatePhoneByCountry(phoneNumber, "mexico");
+  return {
+    isValid: result.isValid,
+    message: result.message
+  };
+};
+
+// ================================================================
+// FUNCIONES DE WHATSAPP INTERNACIONAL
+// ================================================================
+
+/**
+ * Genera URL de WhatsApp según el país
+ * @param phoneNumber - Número de teléfono limpio (solo dígitos)
+ * @param country - País seleccionado
+ * @param message - Mensaje a enviar
+ * @returns URL completa de WhatsApp
+ */
+export const generateWhatsAppUrl = (
+  phoneNumber: string,
+  country: string,
+  message: string
+): string => {
+  const countryConfig = COUNTRIES[country] || COUNTRIES[DEFAULT_COUNTRY];
   const cleanNumber = phoneNumber.replace(/\D/g, "");
+  const internationalNumber = `${countryConfig.whatsappPrefix}${cleanNumber}`;
+  const encodedMessage = encodeURIComponent(message);
   
-  if (!phoneNumber.trim()) {
-    return { isValid: false, message: "Número de teléfono es requerido" };
-  }
+  console.log('🌐 [WhatsApp URL] Generando URL internacional:', {
+    country: countryConfig.name,
+    cleanNumber,
+    whatsappPrefix: countryConfig.whatsappPrefix,
+    internationalNumber,
+    messageLength: message.length
+  });
   
-  if (cleanNumber.length !== PHONE_CONFIG.DIGITS_REQUIRED) {
-    return { 
-      isValid: false, 
-      message: VALIDATION_MESSAGES.INVALID_PHONE_FORMAT 
-    };
-  }
-  
-  return { isValid: true };
+  return `https://wa.me/${internationalNumber}?text=${encodedMessage}`;
 };
 
 /**
- * Envía la invitación por WhatsApp
+ * Envía la invitación por WhatsApp (RETROCOMPATIBILIDAD)
  * @param formData - Datos del formulario
  */
 export const sendWhatsAppInvitation = (formData: FormData): void => {
@@ -248,9 +394,8 @@ export const sendWhatsAppInvitation = (formData: FormData): void => {
   }
   
   const message = generateWhatsAppMessage(formData, null); // Sin guest ID para envío simple
-  const cleanNumber = formData.whatsappNumber.replace(/\D/g, "");
-  const mexicanNumber = `52${cleanNumber}`;
-  const whatsappURL = `https://wa.me/${mexicanNumber}?text=${encodeURIComponent(message)}`;
+  const country = formData.selectedCountry || DEFAULT_COUNTRY;
+  const whatsappURL = generateWhatsAppUrl(formData.whatsappNumber, country, message);
   
   window.open(whatsappURL, "_blank");
 };
@@ -532,21 +677,27 @@ export const sendWhatsAppInvitationWithRegistration = async (formData: FormData)
     console.log('📱 [WHATSAPP] Generando mensaje con ID personalizado...');
     const message = generateWhatsAppMessage(formData, guestId);
     console.log('📝 [MAIN] Mensaje generado con guest ID:', guestId ? 'SÍ' : 'NO');
+    
+    const selectedCountry = formData.selectedCountry || DEFAULT_COUNTRY;
+    const whatsappURL = generateWhatsAppUrl(formData.whatsappNumber, selectedCountry, message);
+    
     const cleanNumber = formData.whatsappNumber.replace(/\D/g, "");
-    const mexicanNumber = `521${cleanNumber}`; // Corregido: usar 521 para WhatsApp
+    const countryConfig = COUNTRIES[selectedCountry];
+    const internationalNumber = `${countryConfig.whatsappPrefix}${cleanNumber}`;
     const encodedMessage = encodeURIComponent(message);
-    const whatsappURL = `https://wa.me/${mexicanNumber}?text=${encodedMessage}`;
     
     console.log('📋 [WHATSAPP] Detalles del mensaje:', {
       cleanNumber: cleanNumber,
-      mexicanNumber: mexicanNumber,
+      selectedCountry: selectedCountry,
+      countryName: countryConfig.name,
+      internationalNumber: internationalNumber,
       messageLength: message.length,
       encodedLength: encodedMessage.length,
       urlLength: whatsappURL.length,
       urlTruncated: whatsappURL.length > 8000 ? 'URL MUY LARGA' : 'OK'
     });
     
-    console.log('� [WHATSAPP] Mensaje sin codificar (primeros 300 chars):', message.substring(0, 300) + '...');
+    console.log('📝 [WHATSAPP] Mensaje sin codificar (primeros 300 chars):', message.substring(0, 300) + '...');
     console.log('🔗 [WHATSAPP] Mensaje codificado (primeros 300 chars):', encodedMessage.substring(0, 300) + '...');
     console.log('🌐 [WHATSAPP] URL generada (primeros 200 chars):', whatsappURL.substring(0, 200) + '...');
     
@@ -578,7 +729,7 @@ ${formData.personalMessage}
 Con cariño 💜`;
 
       const shortEncodedMessage = encodeURIComponent(shortMessage);
-      const shortWhatsappURL = `https://wa.me/${mexicanNumber}?text=${shortEncodedMessage}`;
+      const shortWhatsappURL = `https://wa.me/${internationalNumber}?text=${shortEncodedMessage}`;
       
       console.log('📝 [WHATSAPP] Usando mensaje corto (PRIORIZA MENSAJE PERSONAL):', {
         shortMessageLength: shortMessage.length,
@@ -602,7 +753,7 @@ Con cariño 💜`;
       
       // Alternativa: usar location.href como fallback
       const urlToUse = whatsappURL.length > 8192 ? 
-        `https://wa.me/${mexicanNumber}?text=${encodeURIComponent(`👑 Hola ${formData.guestName}! ${formData.personalMessage} Ver invitación: ${EVENT_INFO.invitationUrl}`)}` : 
+        `https://wa.me/${internationalNumber}?text=${encodeURIComponent(`👑 Hola ${formData.guestName}! ${formData.personalMessage} Ver invitación: ${EVENT_INFO.invitationUrl}`)}` : 
         whatsappURL;
         
       if (confirm('El popup fue bloqueado. ¿Quieres abrir WhatsApp en esta pestaña?')) {

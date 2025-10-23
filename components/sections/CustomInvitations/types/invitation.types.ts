@@ -8,6 +8,7 @@ export interface FormData {
   personalMessage: string;
   numberOfGuests: string;
   whatsappNumber: string;
+  selectedCountry: string; // ⭐ NUEVO: "mexico" | "usa"
 }
 
 export type FormField = keyof FormData;
@@ -29,6 +30,32 @@ export interface UIState {
 export interface ValidationResult {
   isValid: boolean;
   message?: string;
+}
+
+// ================================================================
+// NUEVOS TIPOS PARA SOPORTE INTERNACIONAL DE TELÉFONOS
+// ================================================================
+
+export interface CountryConfig {
+  code: string;              // "+52", "+1"
+  flag: string;              // "🇲🇽", "🇺🇸" 
+  name: string;              // "México", "Estados Unidos"
+  digits: number;            // 10, 10
+  whatsappPrefix: string;    // "521", "1"
+  placeholder: string;       // "555 123 4567", "(555) 123-4567"
+  formatPattern: RegExp;     // /^\d{3} \d{3} \d{4}$/, /^\(\d{3}\) \d{3}-\d{4}$/
+  inputMask: string;         // "XXX XXX XXXX", "(XXX) XXX-XXXX"
+}
+
+export interface PhoneValidationResult extends ValidationResult {
+  country?: string;
+  formattedNumber?: string;
+  cleanNumber?: string;
+}
+
+export interface CountryOption {
+  value: string;
+  label: string;
 }
 
 export interface RelationOption {
