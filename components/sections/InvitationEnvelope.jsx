@@ -27,7 +27,7 @@ function EnvelopeContent({ onOpen }) {
       //setGuestName("Familia Hernández Jimenez"); // Fallback si no se proporciona nombre
       console.log("No guest name provided, using fallback.");
     }else{
-      console.log("Guest name found:", inviteData.name);
+      console.log("Guest data found:", inviteData);
       setCustomHeight('30vh');
     }
   }, [inviteData]);
@@ -41,13 +41,14 @@ function EnvelopeContent({ onOpen }) {
       const response = await fetch(`/api/guests/${id}`);
       if (response.ok) {
         const data = await response.json();
-        //console.log("Guest data:", data);
+        console.log("Guest data:", data);
         if (data) {
           const dataGuest= data.data;
           const { personalInvitation } = dataGuest;
           setInviteData({
             name: dataGuest.name,
-            message: personalInvitation.message
+            message: personalInvitation.message,
+            guestCount: dataGuest.guestCount,
           });
         }
       } else {
@@ -92,6 +93,7 @@ function EnvelopeContent({ onOpen }) {
       <div className="flex flex-col items-center text-rose-700 font-main-text text-lg pt-4">
           <h5>{inviteData? "Invitación Para: " : ""}</h5>
           <div className="mt-2 text-2xl font-semibold">{inviteData ? inviteData.name : ""}</div>
+          <div className="mt-2 text-lg">{inviteData ? `${inviteData.guestCount} Personas` : ''}</div>
           <div className="mt-2 text-lg">{event.date.full}</div>
           <div className="mt-1 text-sm italic px-8 text-center">
             {inviteData ? inviteData.message : ""}
