@@ -66,7 +66,7 @@ export default function WeddingInvitation() {
       <GiftsSection />
       {/* <GallerySection /> */}
       <PremiumGallery />
-      <VideoElement />
+      {/* <VideoElement /> */}
       {/* <QRCode /> */}
       {/* <CustomInvitations /> */}
       <Link 

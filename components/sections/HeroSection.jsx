@@ -62,7 +62,7 @@ export default function HeroSection() {
       <BackgroundCarrousel images={backgroundCarrouselImages}/>
 
       {/* Diamantes animados como marco */}
-      <DiamondContainer intensity="default" />
+      {/* <DiamondContainer intensity="default" /> */}
 
       {/* Contenido principal - Usar solo animación CSS, no scroll-based */}
       <div

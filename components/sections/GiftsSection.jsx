@@ -110,6 +110,19 @@ export default function GiftsSection() {
                     <p className="text-muted">
                       {option.description}
                     </p>
+                    {option.dataCounter && (
+                      <div className="mt-4 text-sm bg-gray-100 p-3 rounded-lg">
+                        {option.dataCounter.bank && (
+                          <p className="flex flex-col"><strong>Banco:</strong> {option.dataCounter.bank}</p>
+                        )}
+                        {option.dataCounter.accountHolder && (
+                          <p className="flex flex-col"><strong>Nombre del Titular:</strong> {option.dataCounter.accountHolder}</p>
+                        )}
+                        {option.dataCounter.tarjeta && (
+                          <p className="flex flex-col"><strong>Tarjeta:</strong> {option.dataCounter.tarjeta}</p>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               );

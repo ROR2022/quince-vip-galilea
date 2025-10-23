@@ -23,12 +23,8 @@ export const quinceMainData = {
       parents: {
       father: "Juan Carlos Olmedo Prieto",
       mother: "Sandy Gaona Santoyo",
-      message: `Hoy, mi corazón rebosa de gratitud. 
-                Doy gracias a Dios por cada paso de mi vida y a mis padres  
-                por cuidarme y guiarme en este camino.
-                Hace quince años mis padres agradecieron a Dios por mi vida. 
-                Hoy, yo agradezco a Dios por ellos, por su infinito amor y paciencia.`,
-      backgroundImage: "/images/diamantes2.jpeg",
+      message: `Tienen el Honor de Invitarte a los quince de su hija.`,
+      backgroundImage: "/images/fondo15rosa2.png",
       parentsImage: "/images/padresDahian.jpg",
     },
     
@@ -155,7 +151,7 @@ export const quinceMainData = {
     backgroundImage: "/images/countdown-bg.jpg",
   },
   attendance: {
-    whatsappNumber: "5217777937484",
+    whatsappNumber: "5216648164230", //+52 1 664 816 4230
     title: "CONFIRMACIÓN DE ASISTENCIA",
     message: "Respetuosamente",
     subtitle: "Confirmar antes del evento.",
@@ -199,6 +195,11 @@ export const quinceMainData = {
         icon: "🏦",
         description:
           "Si prefieres, puedes hacer una transferencia bancaria como regalo.",
+        dataCounter: {
+          bank: "Bancoppel",
+          accountHolder: "Sandy Adilene Gaona Santoyo",
+          tarjeta: "4169 1614 8940 7204",
+        },  
         image: "/images/gifts/bank-transfer.png",
         link: "https://example.com/transferencia-bancaria",
       },
